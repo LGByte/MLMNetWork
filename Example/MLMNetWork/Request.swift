@@ -10,29 +10,30 @@ import Foundation
 import MLMNetWork
 
 class Request<Data>: MRequest  {
-    typealias DataType = Data
+    var test: String = ""
     
+
     typealias Response = ResponseModel<Data>
 
     var headers: [String : String]?
-    
+
     var method: RequestMethod = .post
-    
+
     var path: String = ""
-    
+
     var parameters: [String : Any]?
-    
+
     var cachePolicy: RequestCachePolicy = .cacheAndRemote
-    
+
     func cache(_ response: Any?) {
     }
-    
-    func cache() -> Any? {
-        return [
-            "status":true,
-            "entry":[
-                "cache":"cache"
-            ]
-        ]
-    }
+
+//    func cache() -> Any? {
+//        return [
+//            "status":true,
+//            "entry":[
+//                "cache":"ssh"
+//            ]
+//        ]
+//    }
 }

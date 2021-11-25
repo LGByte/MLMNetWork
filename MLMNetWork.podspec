@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
   
   s.subspec 'Protocol' do |ss|
-    ss.dependency 'RxSwift', '~> 5'
+    ss.dependency 'RxSwift'#, '~> 5'
     ss.dependency 'RxCocoa', '~> 5'
     ss.dependency 'HandyJSON', '~> 5.0.1'
     
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'AlamofireClient' do |ss|
     ss.dependency 'MLMNetWork/Protocol'
-    ss.dependency 'Alamofire', '~> 5.2'
+    ss.dependency 'Alamofire', '~> 5.4'
     
     ss.source_files = 'MLMNetWork/AlamofireClient/*.swift'
   end

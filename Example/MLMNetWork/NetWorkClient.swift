@@ -19,12 +19,12 @@ final class NetWorkClient: AlamofireClient {
     
     lazy var baseHeaders: [String : String]? = {
         return [
-            "":"",
+            "v":"111",
         ]
     }()
     
     var baseUrl: String {
-        return ""
+        return "https://api.juejin.cn"
     }
 }
 

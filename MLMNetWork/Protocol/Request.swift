@@ -37,7 +37,7 @@ public protocol Request {
     var method: RequestMethod { get set }
     var parameters: [String: Any]? { get set }
     var headers: [String: String]? { get set }
-    
+    var test:String {get set}
     associatedtype Response: Parsable
     
     /// 缓存

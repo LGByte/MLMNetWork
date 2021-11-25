@@ -8,26 +8,88 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import MLMNetWork
 import Alamofire
 import HandyJSON
-
+struct Login: Encodable {
+    let email: String
+    let password: String
+}
 class ViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        testFunc()
+        validateTest()
+        let btn = UIButton(type: .custom)
+        btn.setTitle("按钮", for: .normal)
+        btn.setTitleColor(UIColor.gray, for: .normal)
+        btn.frame.size = CGSize(width: 100, height: 40)
+        btn.center = view.center
+        view.addSubview(btn)
+        btn.rx.controlEvent(.touchUpInside).subscribe { (next) in
+            self.validateTest()
+        }.disposed(by: self.disposeBag)
+
     }
     
+    func testFunc(){
+        
+        let login = Login(email: "test@test.test", password: "testPassword")
+        
+        AF.request("https://httpbin.org/post",
+                   method: .post,
+                   parameters: login,
+                   encoder: JSONParameterEncoder.default) .response { response in
+            debugPrint(response)
+        }
+
+    }
+    
+    func validateTest(){
+        let url = "https://api.juejin.cn/tag_api/v1/query_category_briefs?aid=2608&uuid=7034072491513447969&show_type=2"
+        AF.request(url)
+            
+        .responseJSON(completionHandler: { (res) in
+                switch res.result {
+                case .success(let sus) :
+                    if let data = sus as? Dictionary<String, Any> ,let err_num = data["err_no"]{
+                        print("\(err_num) ---")
+                    }
+//                    print("res \(sus)")
+                break
+                case .failure( _) :
+                break
+                default: break
+                    
+                }
+            
+            })
+            .responseData { response in
+                switch response.result {
+                
+                case .success(let data):
+                 let res =   ""
+                    print("Validation Successful \(data) -\(res)")
+                case let .failure(error):
+                    print(error)
+                }
+            }
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let request = Request<Any>()
-        request.path = "/app-web/advertPositions/list"
+        let _ = "https://api.juejin.cn/tag_api/v1/query_category_briefs?aid=2608&uuid=7034072491513447969&show_type=2"
+//        validateTest()
+        let request = Request<Casch>()
+        request.path =  "/tag_api/v1/query_category_briefs?aid=2608&uuid=7034072491513447969&show_type=2"
         request.method = .get
-        request.parameters = [
-            "pageId": "0"
-        ]
+//        request.parameters = [
+//            "aid": "2608",
+//            "uuid": "7034072491513447969",
+//            "show_type": "2"
+//        ]
         
         /// Completion
 //        NetWorkClient.share.send(request) { (_, result) in
@@ -52,7 +114,7 @@ class ViewController: UIViewController {
 
         // RX
         NetWorkClient.share.rx.send(request).subscribe(onNext: {
-            print($0.entry ?? [])
+            print($0.data ?? [])
         }).disposed(by: disposeBag)
     }
 }

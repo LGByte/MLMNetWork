@@ -48,6 +48,7 @@ extension AlamofireClient {
                 }
             }
         }
+        
         let dataRequest = AF.request(self.baseUrl + request.path,
                                  method: method,
                                  parameters: request.parameters,
